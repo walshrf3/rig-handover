@@ -27,7 +27,9 @@ Read first: `docs/vision.md`, `docs/styleguide.md`. Decisions: `docs/adr/`.
    commit: <sha or "none">
    ```
 
-5. An issue is closed only when its "Done when" holds. If it can't hold yet, leave it open and
+5. Code issues are built test-first (skill `superpowers:test-driven-development`): write the
+   failing test, watch it fail, then make it pass. `pnpm test` is green before an issue closes.
+6. An issue is closed only when its "Done when" holds. If it can't hold yet, leave it open and
    say what it waits on.
 
 ## Skills

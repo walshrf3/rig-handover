@@ -28,8 +28,11 @@ Done when: reader tests pass on `runs/2026-10-28.jsonl` (5 jobs, 1 bad line).
 
 ## 2. Digest page
 
-Four small parts. Each needs only `src/digest/types.ts` from section 1, so once that is in they
-can go to four workers at once. Small, well-specified work: a cheaper model is fine here.
+Three small parts. Each needs only `src/digest/types.ts` from section 1, so once that is in they
+can go to three workers at once. Small, well-specified work: a cheaper model is fine here.
+
+Every part is built test-first: write the failing test, watch it fail, then make it pass. Route
+tests use a temp runs dir (`runs/` is read-only) and go through `app.request()`.
 
 ### 2a. Page
 
@@ -37,28 +40,28 @@ can go to four workers at once. Small, well-specified work: a cheaper model is f
 3 or more and any `fail` marked. A night with no file returns 404; an empty file renders
 "nothing ran".
 
-Done when: `/digest/2026-10-28` renders locally.
+Tests (first): 200, 404 for a night with no file, the empty night, a night with a bad line.
+
+Done when: the tests above pass and `/digest/2026-10-28` renders locally.
 
 ### 2b. JSON
 
 `GET /api/digest/:night` returns the same rows as JSON. Agents read this one; the page and the
 JSON must never disagree (ADR 0001).
 
-Done when: the JSON for 2026-10-28 has the same jobs, in the same order, as the page.
+Tests (first): 200, 404 for a night with no file, the empty night, a night with a bad line.
+
+Done when: the tests above pass and the JSON for 2026-10-28 has the same jobs, in the same order,
+as the page.
 
 ### 2c. Board link
 
 The status board links each night on disk to its digest, with its ok / retry / fail counts beside
 it.
 
-Done when: both nights on disk link to a digest that renders.
+Tests (first): the board lists each night with its counts and a link to its digest.
 
-### 2d. Route tests
-
-Route tests for 2a and 2b: 200, 404 for a night with no file, the empty night, a night with a bad
-line. Use a temp runs dir; `runs/` is read-only.
-
-Done when: `pnpm test` is green with the new tests.
+Done when: the test above passes and both nights on disk link to a digest that renders.
 
 ## 3. Preview for review
 
