@@ -19,7 +19,4 @@ export type Night = {
   badLines: number;
 };
 
-// Reads runs/<night>.jsonl. Returns null when the night has no file (the route answers 404).
-// An empty file gives { rows: [], badLines: 0 }. Rows are sorted by job.
-export type ReadNight = (runsDir: string, night: string) => Night | null;
-export declare function readNight(runsDir: string, night: string): Night | null;
+// readNight(runsDir, night) lives in ./reader.ts.
